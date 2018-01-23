@@ -689,7 +689,7 @@ function main() {
   /*
    * This is the weirdest bug ever.  When I go directly to a link like
    *
-   *   mandelbrot.html#zoom=0.01570294345468629,0.010827482681521361&
+   *   index.html#zoom=0.01570294345468629,0.010827482681521361&
    *   lookAt=-0.3083866260309053,-0.6223590662533901&iterations=5000&
    *   superSamples=1&escapeRadius=16&colorScheme=pickColorHSV2
    *
