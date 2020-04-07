@@ -35,6 +35,13 @@ var colors = [[0, 0, 0, 0]];
 var renderId = 0; // To zoom before current render is finished
 
 /*
+ * Just a shorthand function: Fetch given element, jQuery-style
+ */
+function $(id) {
+  return document.getElementById(id);
+}
+
+/*
  * Initialize canvas
  */
 var canvas = $('canvasMandelbrot');
@@ -48,13 +55,6 @@ ccanvas.height = window.innerHeight;
 var ctx = canvas.getContext('2d');
 var img = ctx.createImageData(canvas.width, 1);
 
-/*
- * Just a shorthand function: Fetch given element, jQuery-style
- */
-function $(id) {
-  return document.getElementById(id);
-}
-
 function focusOnSubmit() {
   var e = $('submitButton');
   if (e) e.focus();
@@ -62,11 +62,13 @@ function focusOnSubmit() {
 
 function getColorPicker() {
   var p = $("colorScheme").value;
-  if (p == "pickColorHSV1") return pickColorHSV1;
-  if (p == "pickColorHSV2") return pickColorHSV2;
-  if (p == "pickColorHSV3") return pickColorHSV3;
-  if (p == "pickColorGrayscale2") return pickColorGrayscale2;
-  return pickColorGrayscale;
+  if (p === "pickColorHSV1") return pickColorHSV1;
+  if (p === "pickColorHSV2") return pickColorHSV2;
+  if (p === "pickColorHSV3") return pickColorHSV3;
+  if (p === "pickColorGrayscale") return pickColorGrayscale;
+  if (p === "pickColorGrayscale2") return pickColorGrayscale2;
+
+  return pickColorHSV1;
 }
 
 function getSamples() {
@@ -435,7 +437,7 @@ function draw(pickColor, superSamples) {
 
           var speed = Math.floor(pixels / elapsedMS);
 
-          if (metric_units(speed).substr(0, 3) == "NaN") {
+          if (metric_units(speed).substr(0, 3) === "NaN") {
             speed = Math.floor(60.0 * pixels / elapsedMS);
             $('renderSpeedUnit').innerHTML = 'minute';
           } else
@@ -474,7 +476,7 @@ function smoothColor(steps, n, Tr, Ti) {
 }
 
 function pickColorHSV1(steps, n, Tr, Ti) {
-  if (n == steps) // converged?
+  if (n === steps) // converged?
     return interiorColor;
 
   var v = smoothColor(steps, n, Tr, Ti);
@@ -484,7 +486,7 @@ function pickColorHSV1(steps, n, Tr, Ti) {
 }
 
 function pickColorHSV2(steps, n, Tr, Ti) {
-  if (n == steps) // converged?
+  if (n === steps) // converged?
     return interiorColor;
 
   var v = smoothColor(steps, n, Tr, Ti);
@@ -494,7 +496,7 @@ function pickColorHSV2(steps, n, Tr, Ti) {
 }
 
 function pickColorHSV3(steps, n, Tr, Ti) {
-  if (n == steps) // converged?
+  if (n === steps) // converged?
     return interiorColor;
 
   var v = smoothColor(steps, n, Tr, Ti);
@@ -510,7 +512,7 @@ function pickColorHSV3(steps, n, Tr, Ti) {
 }
 
 function pickColorGrayscale(steps, n, Tr, Ti) {
-  if (n == steps) // converged?
+  if (n === steps) // converged?
     return interiorColor;
 
   var v = smoothColor(steps, n, Tr, Ti);
@@ -520,7 +522,7 @@ function pickColorGrayscale(steps, n, Tr, Ti) {
 }
 
 function pickColorGrayscale2(steps, n, Tr, Ti) {
-  if (n == steps) { // converged?
+  if (n === steps) { // converged?
     var c = 255 - Math.floor(255.0 * Math.sqrt(Tr + Ti)) % 255;
     if (c < 0) c = 0;
     if (c > 255) c = 255;
@@ -551,11 +553,11 @@ function main() {
     draw(getColorPicker(), getSamples());
   };
 
-  if (dragToZoom == true) {
+  if (dragToZoom === true) {
     var box = null;
 
     $('canvasControls').onmousedown = function (e) {
-      if (box == null)
+      if (box === null)
         box = [e.clientX, e.clientY, 0, 0];
     }
 
@@ -647,7 +649,7 @@ function main() {
    * Enable zooming (currently, the zooming is inexact!) Click to zoom;
    * perfect to mobile phones, etc.
    */
-  if (dragToZoom == false) {
+  if (dragToZoom === false) {
     $('canvasMandelbrot').onclick = function (event) {
       var x = event.clientX;
       var y = event.clientY;
